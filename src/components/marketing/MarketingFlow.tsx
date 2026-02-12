@@ -101,7 +101,7 @@ const nodeDetails: Record<string, { title: string; tasks: string[]; tools: strin
 };
 
 export default function MarketingFlow() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [nodes, , onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
 
@@ -133,11 +133,11 @@ export default function MarketingFlow() {
       <AnimatePresence>
         {selectedNode && nodeDetails[selectedNode] && (
           <motion.div
-            initial={{ x: '100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="absolute top-0 right-0 h-full w-full md:w-80 bg-black/90 backdrop-blur-xl border-l border-white/10 p-6 z-10 shadow-2xl overflow-y-auto"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ type: 'spring', duration: 0.3 }}
+            className="absolute top-4 right-4 bottom-4 w-full max-w-sm bg-black/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 z-20 shadow-2xl overflow-y-auto"
           >
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-xl font-bold text-primary">{nodeDetails[selectedNode].title}</h3>

@@ -1,17 +1,17 @@
 'use client';
-import { Calendar, Users, Music } from 'lucide-react';
+import { Calendar, Users } from 'lucide-react';
 
 export default function EventsPage() {
   const events = [
-    { title: 'Afrobeat Fridays', type: 'Weekly', audience: 400, vibe: 'High Energy' },
-    { title: 'Latino Heat', type: 'Themed', audience: 500, vibe: 'Dance' },
-    { title: 'Exclusive Guest DJ', type: 'Special', audience: 600, vibe: 'Premium' },
-    { title: 'R&B Sundays', type: 'Chill', audience: 350, vibe: 'Lounge' },
+    { title: 'Afrobeat Fridays', type: 'Weekly', audience: 250, vibe: 'High Energy' },
+    { title: 'Latino Heat', type: 'Themed', audience: 350, vibe: 'Dance' },
+    { title: 'Exclusive Guest DJ', type: 'Special', audience: 400, vibe: 'Premium' },
+    { title: 'R&B Sundays', type: 'Chill', audience: 180, vibe: 'Lounge' },
   ];
   return (
     <div className="space-y-8">
       <h1 className="text-4xl font-bold neon-text text-white">Event Management</h1>
-      <p className="text-gray-400">Upcoming schedule and performance metrics.</p>
+      <p className="text-gray-400">Upcoming schedule and realistic capacity metrics.</p>
       
       <div className="grid gap-4">
         {events.map((e, i) => (
@@ -24,7 +24,7 @@ export default function EventsPage() {
                     </div>
                 </div>
                 <div className="text-right">
-                    <div className="flex items-center gap-2 text-white font-bold justify-end"><Users size={16} className="text-primary"/> {e.audience}</div>
+                    <div className="flex items-center gap-2 text-white font-bold justify-end"><Users size={16} className="text-primary"/> {e.audience} / 400</div>
                     <div className="text-sm text-gray-500">{e.vibe}</div>
                 </div>
             </div>

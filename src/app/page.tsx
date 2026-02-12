@@ -34,7 +34,7 @@ export default function Home() {
             Club <span className="text-primary">Echelon</span>
           </h1>
           <p className="text-xl md:text-2xl text-gray-400 font-light tracking-wide">
-            Belgrade's Most Exclusive Nightlife Experience
+            Belgrade&apos;s Most Exclusive Nightlife Experience
           </p>
         </motion.div>
 

@@ -15,8 +15,6 @@ export default function Navigation() {
 
   useEffect(() => {
     setIsClient(true);
-    // Auto-start listening if supported (can be annoying, so defaulted to manual for now)
-    // startListening(); 
   }, []);
 
   const navItems = [

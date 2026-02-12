@@ -20,7 +20,7 @@ export default function ContentPage() {
                     <li className="flex items-start gap-3"><Check className="text-primary mt-1 shrink-0"/> <span>Dedicated Videographer on-site</span></li>
                     <li className="flex items-start gap-3"><Check className="text-primary mt-1 shrink-0"/> <span>Real-time Stories & Reels (Immediate upload)</span></li>
                     <li className="flex items-start gap-3"><Check className="text-primary mt-1 shrink-0"/> <span>Full ownership of raw footage library</span></li>
-                    <li className="flex items-start gap-3"><Check className="text-primary mt-1 shrink-0"/> <span>Cost: Fixed Monthly Salary (Lower per asset)</span></li>
+                    <li className="flex items-start gap-3"><Check className="text-primary mt-1 shrink-0"/> <span>Structure: Flat Monthly Retainer</span></li>
                 </ul>
                 <div className="mt-8 p-4 bg-primary/20 rounded-lg border border-primary/30 text-center font-bold text-primary">
                     RECOMMENDED STRATEGY
@@ -36,7 +36,7 @@ export default function ContentPage() {
             </h2>
              <ul className="space-y-4 text-gray-400">
                 <li className="flex items-start gap-3"><Check className="text-gray-500 mt-1 shrink-0"/> <span>High quality production value</span></li>
-                <li className="flex items-start gap-3"><X className="text-red-500 mt-1 shrink-0"/> <span>Project-based fees (High cost)</span></li>
+                <li className="flex items-start gap-3"><X className="text-red-500 mt-1 shrink-0"/> <span>Model: Pay-Per-Event</span></li>
                 <li className="flex items-start gap-3"><X className="text-red-500 mt-1 shrink-0"/> <span>Slower turnaround (3-5 days post-event)</span></li>
                 <li className="flex items-start gap-3"><X className="text-red-500 mt-1 shrink-0"/> <span>Limited usage rights often apply</span></li>
             </ul>

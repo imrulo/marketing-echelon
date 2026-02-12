@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 import { useSimulationStore } from '@/store/useSimulationStore';

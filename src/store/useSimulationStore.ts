@@ -4,51 +4,51 @@ export type ScenarioType = 'base' | 'intermediate' | 'advanced';
 
 interface SimulationState {
   // Inputs
-  monthlyBudget: number;
+  investmentLevel: number; // 0-100 scale (Effort/Resources)
   eventsPerMonth: number;
   socialPostsPerWeek: number;
   marketingScenario: ScenarioType;
   
   // Actions
-  setMonthlyBudget: (budget: number) => void;
+  setInvestmentLevel: (level: number) => void;
   setEventsPerMonth: (events: number) => void;
   setSocialPostsPerWeek: (posts: number) => void;
   setScenario: (scenario: ScenarioType) => void;
   
-  // Getters for calculated values (can be computed in components or here)
+  // Getters for calculated values
   getProjections: () => {
     estimatedReach: number;
     estimatedAttendance: number;
-    projectedRevenue: number;
-    roi: number;
+    capacityUtilization: number; // %
+    brandScore: number; // 0-100 score
   };
 }
 
 const SCENARIO_DEFAULTS = {
   base: {
-    budget: 2000,
+    investment: 20, // Low effort/resource
     events: 4,
     posts: 3,
   },
   intermediate: {
-    budget: 5000,
+    investment: 50, // Medium effort/resource
     events: 8,
     posts: 7,
   },
   advanced: {
-    budget: 12000,
+    investment: 90, // High effort/resource
     events: 12,
     posts: 15,
   },
 };
 
 export const useSimulationStore = create<SimulationState>((set, get) => ({
-  monthlyBudget: 2000,
+  investmentLevel: 20,
   eventsPerMonth: 4,
   socialPostsPerWeek: 3,
   marketingScenario: 'base',
 
-  setMonthlyBudget: (budget) => set({ monthlyBudget: budget }),
+  setInvestmentLevel: (level) => set({ investmentLevel: level }),
   setEventsPerMonth: (events) => set({ eventsPerMonth: events }),
   setSocialPostsPerWeek: (posts) => set({ socialPostsPerWeek: posts }),
   
@@ -56,45 +56,59 @@ export const useSimulationStore = create<SimulationState>((set, get) => ({
     const defaults = SCENARIO_DEFAULTS[scenario];
     set({
       marketingScenario: scenario,
-      monthlyBudget: defaults.budget,
+      investmentLevel: defaults.investment,
       eventsPerMonth: defaults.events,
       socialPostsPerWeek: defaults.posts,
     });
   },
 
   getProjections: () => {
-    const { monthlyBudget, eventsPerMonth, socialPostsPerWeek } = get();
+    const { investmentLevel, eventsPerMonth, socialPostsPerWeek } = get();
     
-    // Simple simulation logic (can be refined)
-    // Reach = Base (1000) + (Budget * 0.5) + (Posts * 500)
-    const estimatedReach = 1000 + (monthlyBudget * 0.8) + (socialPostsPerWeek * 800);
+    // LOGIC: Relative Impact
     
-    // Attendance = Reach * Conversion Rate (1.5%) * Events Factor
-    // Capped by capacity (e.g., 500 per event * events)
-    const capacityPerEvent = 400;
-    const maxAttendance = capacityPerEvent * eventsPerMonth;
-    let rawAttendance = estimatedReach * 0.025;
+    // 1. Reach: Driven by Content Volume + Investment Level (Boosts/Quality)
+    const baseReach = 1000;
+    const contentImpact = socialPostsPerWeek * 300; // More content = more reach
+    const investmentImpact = investmentLevel * 150; // Higher resource = better reach
     
-    // Diminishing returns on high frequency
-    if (eventsPerMonth > 8) {
-        rawAttendance = rawAttendance * 0.9;
+    const estimatedReach = baseReach + contentImpact + investmentImpact;
+    
+    // 2. Attendance: Driven by Reach, Frequency, and "Hype" (Investment)
+    // Capacity Cap: 400 people
+    const venueCapacity = 400;
+    const maxMonthlyAttendance = venueCapacity * eventsPerMonth;
+    
+    // Conversion Rate improves with Investment (Better ads, cooler content)
+    // Base conversion 2%, max 5%
+    const conversionRate = 0.02 + ((investmentLevel / 100) * 0.03); 
+    
+    // Diminishing returns if too many events without enough marketing (investment)
+    let saturationFactor = 1;
+    if (eventsPerMonth > 8 && investmentLevel < 50) {
+        saturationFactor = 0.8; // Hard to fill if spamming events with low marketing
     }
     
-    const estimatedAttendance = Math.min(Math.round(rawAttendance), maxAttendance);
+    const rawAttendance = estimatedReach * conversionRate * saturationFactor;
     
-    // Revenue = Attendance * Avg Spend (€30)
-    const avgSpend = 30;
-    const projectedRevenue = estimatedAttendance * avgSpend;
+    // Cap at physical capacity
+    const estimatedAttendance = Math.min(Math.round(rawAttendance), maxMonthlyAttendance);
     
-    const roi = monthlyBudget > 0 
-      ? ((projectedRevenue - monthlyBudget) / monthlyBudget) * 100 
-      : 0;
+    // 3. Capacity Utilization (Average per event)
+    const avgAttendancePerEvent = estimatedAttendance / eventsPerMonth;
+    const capacityUtilization = Math.round((avgAttendancePerEvent / venueCapacity) * 100);
+
+    // 4. Brand Score (0-100)
+    // Composite of consistency (posts), activity (events), and quality (investment)
+    const brandScore = Math.min(100, Math.round(
+        (socialPostsPerWeek * 2) + (eventsPerMonth * 1.5) + (investmentLevel * 0.5)
+    ));
 
     return {
       estimatedReach: Math.round(estimatedReach),
       estimatedAttendance,
-      projectedRevenue,
-      roi: Math.round(roi),
+      capacityUtilization,
+      brandScore,
     };
   },
 }));

@@ -2,27 +2,27 @@
 
 import { useSimulationStore, ScenarioType } from '@/store/useSimulationStore';
 import { motion } from 'framer-motion';
-import { Check, DollarSign, Users, TrendingUp } from 'lucide-react';
+import { Check, BarChart2, Users, TrendingUp, Zap } from 'lucide-react';
 import { clsx } from 'clsx';
 
-const scenarios: { id: ScenarioType; title: string; price: string; features: string[] }[] = [
+const scenarios: { id: ScenarioType; title: string; subtitle: string; features: string[] }[] = [
   {
     id: 'base',
-    title: 'Base Model',
-    price: '€2,000',
-    features: ['4 Events/Month', '3 Posts/Week', 'Basic Ad Setup', 'Monthly Report'],
+    title: 'Organic Focus',
+    subtitle: 'Community Driven',
+    features: ['Consistency over Intensity', 'Word-of-Mouth Growth', 'Standard Event Frequency', 'Basic Content Output'],
   },
   {
     id: 'intermediate',
-    title: 'Growth Model',
-    price: '€5,000',
-    features: ['8 Events/Month', 'Daily Content', 'Advanced Ads & Retargeting', 'Video Production', 'Bi-weekly Strategy'],
+    title: 'Growth Mode',
+    subtitle: 'Active Expansion',
+    features: ['Increased Event Cadence', 'Daily Social Presence', 'Targeted Promotions', 'Higher Production Quality'],
   },
   {
     id: 'advanced',
-    title: 'Domination Model',
-    price: '€12,000',
-    features: ['12+ Events/Month', 'Full Creative Team', 'Influencer Management', 'TikTok Live Series', 'Weekly Deep Dive'],
+    title: 'Market Leader',
+    subtitle: 'Maximum Impact',
+    features: ['High-Frequency Events', 'Premium Content Team', 'Influencer Partnerships', 'Dominant Brand Presence'],
   },
 ];
 
@@ -30,10 +30,10 @@ export default function ScenariosPage() {
   const { 
     marketingScenario, 
     setScenario, 
-    monthlyBudget, 
+    investmentLevel, 
     eventsPerMonth, 
     socialPostsPerWeek,
-    setMonthlyBudget,
+    setInvestmentLevel,
     setEventsPerMonth,
     setSocialPostsPerWeek,
     getProjections
@@ -44,8 +44,8 @@ export default function ScenariosPage() {
   return (
     <div className="space-y-8 pb-12">
       <div>
-        <h1 className="text-4xl font-bold mb-2 neon-text text-white">Compensation Models</h1>
-        <p className="text-gray-400">Choose a tier or customize the parameters to see the impact.</p>
+        <h1 className="text-4xl font-bold mb-2 neon-text text-white">Strategic Models</h1>
+        <p className="text-gray-400">Define your resource allocation and see the projected impact.</p>
       </div>
 
       {/* Scenario Cards */}
@@ -71,7 +71,7 @@ export default function ScenariosPage() {
                 </div>
               )}
               <h3 className="text-2xl font-bold mb-1">{s.title}</h3>
-              <p className="text-xl text-gray-300 mb-4">{s.price}<span className="text-sm text-gray-500">/mo</span></p>
+              <p className="text-lg text-gray-300 mb-4">{s.subtitle}</p>
               
               <ul className="space-y-2 mb-6 flex-1">
                 {s.features.map((f, i) => (
@@ -88,7 +88,7 @@ export default function ScenariosPage() {
       {/* Customization Controls */}
       <div className="glass-panel p-8 rounded-2xl border border-white/10">
         <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <TrendingUp className="text-secondary" /> Fine-Tune Strategy
+            <TrendingUp className="text-secondary" /> Adjust Strategy Parameters
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -96,50 +96,62 @@ export default function ScenariosPage() {
                 {/* Sliders */}
                 <div>
                     <label className="flex justify-between mb-2 text-sm font-medium">
-                        <span>Monthly Budget (€)</span>
-                        <span className="text-primary font-bold">{monthlyBudget}</span>
+                        <span>Resource Investment (Effort/Quality)</span>
+                        <span className="text-primary font-bold">{investmentLevel}%</span>
                     </label>
                     <input 
                         type="range" 
-                        min="500" 
-                        max="20000" 
-                        step="100" 
-                        value={monthlyBudget} 
-                        onChange={(e) => setMonthlyBudget(Number(e.target.value))}
+                        min="0" 
+                        max="100" 
+                        step="5" 
+                        value={investmentLevel} 
+                        onChange={(e) => setInvestmentLevel(Number(e.target.value))}
                         className="w-full accent-primary h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
                     />
+                    <div className="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>Lean</span>
+                        <span>Intensive</span>
+                    </div>
                 </div>
 
                 <div>
                     <label className="flex justify-between mb-2 text-sm font-medium">
-                        <span>Events Per Month</span>
-                        <span className="text-secondary font-bold">{eventsPerMonth}</span>
+                        <span>Event Frequency</span>
+                        <span className="text-secondary font-bold">{eventsPerMonth}/mo</span>
+                    </label>
+                    <input 
+                        type="range" 
+                        min="1" 
+                        max="16" 
+                        step="1" 
+                        value={eventsPerMonth} 
+                        onChange={(e) => setEventsPerMonth(Number(e.target.value))}
+                        className="w-full accent-secondary h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                    />
+                    <div className="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>Exclusive</span>
+                        <span>Frequent</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label className="flex justify-between mb-2 text-sm font-medium">
+                        <span>Content Volume</span>
+                        <span className="text-accent font-bold">{socialPostsPerWeek}/wk</span>
                     </label>
                     <input 
                         type="range" 
                         min="1" 
                         max="20" 
                         step="1" 
-                        value={eventsPerMonth} 
-                        onChange={(e) => setEventsPerMonth(Number(e.target.value))}
-                        className="w-full accent-secondary h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-                    />
-                </div>
-
-                <div>
-                    <label className="flex justify-between mb-2 text-sm font-medium">
-                        <span>Social Posts / Week</span>
-                        <span className="text-accent font-bold">{socialPostsPerWeek}</span>
-                    </label>
-                    <input 
-                        type="range" 
-                        min="1" 
-                        max="30" 
-                        step="1" 
                         value={socialPostsPerWeek} 
                         onChange={(e) => setSocialPostsPerWeek(Number(e.target.value))}
                         className="w-full accent-accent h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
                     />
+                     <div className="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>Minimal</span>
+                        <span>Viral</span>
+                    </div>
                 </div>
             </div>
 
@@ -148,24 +160,24 @@ export default function ScenariosPage() {
                 <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex flex-col justify-center items-center text-center">
                     <Users className="text-secondary mb-2" />
                     <div className="text-2xl font-bold text-white">{projections.estimatedReach.toLocaleString()}</div>
-                    <div className="text-xs text-gray-500 uppercase tracking-wider">Est. Reach</div>
+                    <div className="text-xs text-gray-500 uppercase tracking-wider">Est. Digital Reach</div>
                 </div>
                 <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex flex-col justify-center items-center text-center">
                     <Users className="text-primary mb-2" />
                     <div className="text-2xl font-bold text-white">{projections.estimatedAttendance.toLocaleString()}</div>
-                    <div className="text-xs text-gray-500 uppercase tracking-wider">Attendance</div>
+                    <div className="text-xs text-gray-500 uppercase tracking-wider">Monthly Attendance</div>
                 </div>
                 <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex flex-col justify-center items-center text-center">
-                    <DollarSign className="text-green-500 mb-2" />
-                    <div className="text-2xl font-bold text-green-500">€{projections.projectedRevenue.toLocaleString()}</div>
-                    <div className="text-xs text-gray-500 uppercase tracking-wider">Revenue</div>
+                    <BarChart2 className="text-green-500 mb-2" />
+                    <div className="text-2xl font-bold text-green-500">{projections.capacityUtilization}%</div>
+                    <div className="text-xs text-gray-500 uppercase tracking-wider">Venue Utilization</div>
                 </div>
                 <div className="bg-black/40 p-4 rounded-xl border border-white/5 flex flex-col justify-center items-center text-center">
-                    <TrendingUp className={projections.roi > 0 ? "text-green-500" : "text-red-500"} />
-                    <div className={`text-2xl font-bold ${projections.roi > 0 ? "text-green-500" : "text-red-500"}`}>
-                        {projections.roi}%
+                    <Zap className="text-yellow-500 mb-2" />
+                    <div className="text-2xl font-bold text-yellow-500">
+                        {projections.brandScore}/100
                     </div>
-                    <div className="text-xs text-gray-500 uppercase tracking-wider">ROI</div>
+                    <div className="text-xs text-gray-500 uppercase tracking-wider">Brand Strength</div>
                 </div>
             </div>
         </div>
