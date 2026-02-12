@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+:root {
+  /* Force Dark Mode defaults */
+  --background: #050505; /* Deep black */
+  --foreground: #ededed;
+  
+  --primary: #d946ef; /* Neon Fuchsia */
+  --primary-glow: rgba(217, 70, 239, 0.5);
+  
+  --secondary: #0ea5e9; /* Neon Sky */
+  --secondary-glow: rgba(14, 165, 233, 0.5);
+  
+  --accent: #10b981; /* Neon Emerald */
+  --accent-glow: rgba(16, 185, 129, 0.5);
+
+  --card-bg: #121212;
+  --card-border: #27272a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --color-card: var(--card-bg);
+  --color-card-border: var(--card-border);
+  
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom Utilities for Neon Glows */
+.neon-text {
+  text-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary-glow);
+}
+
+.neon-box {
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+.glass-panel {
+  background: rgba(18, 18, 18, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
